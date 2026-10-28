@@ -1,0 +1,23 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <view wx:elif="{{list.length === 0}}" class="empty">还没有上报记录，去「上报」填一单吧</view>
+
+  <view wx:else>
+    <view class="card item" wx:for="{{list}}" wx:key="_id" bindtap="goDetail" data-id="{{item._id}}"
+          hover-class="hover-item" hover-stay-time="80">
+      <view class="row1">
+        <text class="name">{{item.name}}</text>
+        <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+      </view>
+      <view class="row2">
+        <view class="plat">
+          <text>{{item.platform}}</text>
+          <text class="proj" wx:if="{{item.projectName}}">{{item.projectName}}</text>
+        </view>
+        <text class="amount">¥{{item.amountText}}</text>
+      </view>
+      <view class="row3 muted">{{item.createdAtText}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+{
+  "name": "renameTeam",
+  "version": "1.0.0",
+  "description": "修改团队名称（同步历史冗余字段）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

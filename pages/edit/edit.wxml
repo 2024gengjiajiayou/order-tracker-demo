@@ -1,0 +1,91 @@
+<view class="page">
+  <view class="container">
+    <view wx:if="{{loading}}" class="card empty">加载中…</view>
+
+    <block wx:else>
+      <view class="card">
+        <view class="edit-title">修改上报记录</view>
+        <view class="status-tip" wx:if="{{status !== 'pending'}}">当前记录状态为「{{statusText}}」，非管理员可能无法保存修改。</view>
+      </view>
+
+      <view class="card">
+        <view class="card-title">基本信息</view>
+
+        <view class="field">
+          <view class="label">姓名 <text class="req">*</text></view>
+          <input class="input" placeholder-class="placeholder" placeholder="请输入你的姓名" value="{{name}}" bindinput="onName" />
+        </view>
+
+        <view class="field">
+          <view class="label">联系方式 <text class="req">*</text></view>
+          <input class="input" placeholder-class="placeholder" type="number" placeholder="手机号等联系方式" value="{{phone}}" bindinput="onPhone" />
+        </view>
+
+        <view class="field" wx:if="{{hasProjects}}">
+          <view class="label">所属项目 <text class="req">*</text></view>
+          <picker mode="selector" range="{{projects}}" range-key="name" value="{{projectIndex}}" bindchange="onProject">
+            <view class="picker picker-arrow">{{projects[projectIndex].name}}</view>
+          </picker>
+        </view>
+        <view class="field" wx:else>
+          <view class="label">所属项目</view>
+          <view class="empty-tip">暂无可用项目，请管理员在「管理后台」添加</view>
+        </view>
+
+        <view class="field">
+          <view class="label">下单平台</view>
+          <picker mode="selector" range="{{platforms}}" value="{{platformIndex}}" bindchange="onPlatform">
+            <view class="picker picker-arrow">{{platforms[platformIndex]}}</view>
+          </picker>
+        </view>
+
+        <view class="field">
+          <view class="label">订单号 / 下单记录</view>
+          <input class="input" placeholder-class="placeholder" placeholder="选填，平台订单编号" value="{{orderNo}}" bindinput="onOrderNo" />
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="card-title">快递与金额</view>
+
+        <view class="field">
+          <view class="label">快递单号 <text class="muted">可填多个，每行一个；支持一次粘贴多个</text></view>
+          <view class="track-card">
+            <view class="track-list">
+              <view class="track-row" wx:for="{{trackingList}}" wx:key="index">
+                <input class="input track-input" placeholder-class="placeholder" placeholder="快递单号" value="{{item}}" data-idx="{{index}}" bindinput="onTrackingInput" />
+                <view class="track-del" wx:if="{{trackingList.length > 1}}" bindtap="removeTracking" data-idx="{{index}}">×</view>
+              </view>
+            </view>
+            <view class="track-add" bindtap="addTracking">＋ 添加快递单号</view>
+          </view>
+        </view>
+
+        <view class="field">
+          <view class="label">下单金额（元） <text class="req">*</text></view>
+          <input class="input input-amount" placeholder-class="placeholder" type="digit" placeholder="如 199.00" value="{{amount}}" bindinput="onAmount" />
+        </view>
+
+        <view class="field">
+          <view class="label">备注</view>
+          <textarea class="textarea" placeholder-class="placeholder" placeholder="选填，补充说明" value="{{remark}}" bindinput="onRemark" maxlength="-1" />
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="card-title">订单截图 <text class="muted">选填，最多 9 张</text></view>
+        <view class="img-grid">
+          <view class="img-item" wx:for="{{images}}" wx:key="*this">
+            <image class="img" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-url="{{item}}" />
+            <view class="img-del" bindtap="removeImage" data-idx="{{index}}">×</view>
+          </view>
+          <view class="img-add" bindtap="chooseImage" wx:if="{{images.length < 9}}">＋</view>
+        </view>
+      </view>
+
+      <button class="btn-primary submit-btn" bindtap="save" disabled="{{saving}}">
+        {{saving ? '保存中…' : '保存修改'}}
+      </button>
+    </block>
+  </view>
+</view>

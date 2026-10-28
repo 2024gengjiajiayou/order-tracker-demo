@@ -1,0 +1,230 @@
+<view class="container">
+
+  <!-- 非管理员视图 -->
+  <view wx:if="{{!isAdmin && !loading}}" class="card">
+    <block wx:if="{{canInit}}">
+      <view class="sec-title">首次使用 · 一键运营</view>
+      <view class="tip">点击下方按钮即可自动完成初始化：创建数据集合、把你设为管理员、并建好一个默认项目。之后你和成员就能正常上报与查看了。</view>
+      <button class="btn-primary init-btn" bindtap="init" loading="{{initing}}" disabled="{{initing}}">
+        {{initing ? '初始化中…' : '一键初始化并设为管理员'}}
+      </button>
+      <text class="openid" user-select wx:if="{{openid}}">{{openid}}</text>
+      <view class="tip" wx:if="{{openid}}">你的 openid 已自动写入管理员列表，无需手动配置。</view>
+    </block>
+    <block wx:else>
+      <view class="sec-title">暂无权限</view>
+      <view class="tip">你当前的微信还不是管理员，看不到全员数据。请联系管理员将你的 openid 加入管理名单。</view>
+      <text class="openid" user-select wx:if="{{openid}}">{{openid}}</text>
+      <button class="link-btn" bindtap="copyOpenid" wx:if="{{openid}}">复制我的 openid</button>
+      <view class="load-error" wx:if="{{loadError}}" user-select>错误详情：{{loadError}}</view>
+    </block>
+  </view>
+
+  <block wx:elif="{{isAdmin}}">
+    <!-- 汇总统计 -->
+    <view class="card stat-card">
+      <view class="stat">
+        <view class="stat-num">¥{{totalAmount}}</view>
+        <view class="stat-label">总金额</view>
+      </view>
+      <view class="stat">
+        <view class="stat-num">{{totalCount}}</view>
+        <view class="stat-label">总单数</view>
+      </view>
+      <view class="stat">
+        <view class="stat-num">{{persons.length}}</view>
+        <view class="stat-label">上报人数</view>
+      </view>
+    </view>
+
+    <button class="btn-primary export-btn" bindtap="exportExcel" disabled="{{exporting}}">
+      {{exporting ? '生成中…' : '导出 Excel'}}
+    </button>
+
+    <!-- 启用团队功能（总管理员，仅在旧模式时显示） -->
+    <view class="card" wx:if="{{isOwner && !teamsEnabled}}">
+      <view class="sec-title">启用团队功能</view>
+      <view class="tip">当前仍是旧模式：所有管理员共享全部数据。点击下方按钮会为历史项目和记录补齐团队归属（默认归到你名下），并给每个管理员生成邀请码。可重复执行，不会删除数据。</view>
+      <button class="btn-primary" bindtap="migrateTeams">一键启用团队功能</button>
+    </view>
+
+    <!-- 我的团队与邀请码 -->
+    <view class="card" wx:if="{{teamsEnabled}}">
+      <view class="sec-title">我的团队</view>
+      <view class="team-row">
+        <text class="team-name">{{teamName || '我的团队'}}</text>
+        <text class="team-edit" bindtap="renameTeam">改名</text>
+        <text class="team-code" wx:if="{{myInviteCode}}" bindtap="copyInvite" data-code="{{myInviteCode}}">邀请码 {{myInviteCode}} · 点击复制</text>
+      </view>
+      <view class="tip">把邀请码发给成员，成员在「上报」页输入后即加入你的团队，只能看到本团队的项目和数据。</view>
+    </view>
+
+    <!-- 团队筛选（仅总管理员） -->
+    <view class="card" wx:if="{{isOwner && teamsEnabled}}">
+      <view class="sec-title">团队筛选</view>
+      <view class="proj-filter">
+        <view class="pf {{teamFilter === 'all' ? 'on' : ''}}" bindtap="onTeamFilter" data-t="all">全部团队</view>
+        <view class="pf {{teamFilter === item.openid ? 'on' : ''}}" wx:for="{{teams}}" wx:key="openid" bindtap="onTeamFilter" data-t="{{item.openid}}">{{item.name}}</view>
+      </view>
+    </view>
+
+    <!-- 项目管理（管理员维护） -->
+    <view class="card">
+      <view class="sec-title">项目管理</view>
+      <view class="proj-add">
+        <input class="proj-input" placeholder="输入项目名称后添加" value="{{newProjectName}}" bindinput="onNewProjectInput" confirm-type="done" bindconfirm="addProject" />
+        <button class="proj-btn" bindtap="addProject">添加</button>
+      </view>
+      <view class="proj-list" wx:if="{{projects.length}}">
+        <view class="proj-item" wx:for="{{projects}}" wx:key="_id">
+          <text class="proj-name">{{item.name}}</text>
+          <view class="proj-ops">
+            <text class="proj-toggle {{item.enabled ? 'on' : ''}}" bindtap="toggleProject" data-id="{{item._id}}" data-enabled="{{item.enabled}}">{{item.enabled ? '已启用' : '已停用'}}</text>
+            <text class="proj-del" bindtap="deleteProject" data-id="{{item._id}}">删除</text>
+          </view>
+        </view>
+      </view>
+      <view class="tip" wx:else>还没有项目，添加后本团队成员上报时即可选择所属项目。</view>
+    </view>
+
+    <!-- 管理员设置（仅总管理员） -->
+    <view class="card" wx:if="{{isOwner}}">
+      <view class="sec-title">管理员设置</view>
+      <view class="tip">每个管理员 = 一个团队。让成员打开「首页」复制 openid 发给你，先添加为管理员，再把他团队的成员拉进他的团队。</view>
+      <view class="proj-add" wx:if="{{isOwner}}">
+        <input class="proj-input" placeholder="团队/管理员名称，如 张三" value="{{newAdminName}}" bindinput="onNewAdminName" />
+      </view>
+      <view class="proj-add" wx:if="{{isOwner}}">
+        <input class="proj-input" placeholder="粘贴要添加的管理员 openid" value="{{newAdminOpenid}}" bindinput="onNewAdminInput" confirm-type="done" bindconfirm="addAdmin" />
+        <button class="proj-btn" bindtap="addAdmin" style="width: 185rpx; display: flex; box-sizing: border-box; left: 0rpx; top: 0rpx">添加</button>
+      </view>
+      <view class="admin-list" wx:if="{{adminList.length}}">
+        <view class="admin-item" wx:for="{{adminList}}" wx:key="openid">
+          <view class="admin-main">
+            <view class="admin-name-row">
+              <text class="admin-name">{{item.name}}</text>
+              <text class="admin-edit" catchtap="renameTeam" data-id="{{item.openid}}" data-name="{{item.name}}">改名</text>
+            </view>
+            <text class="admin-id" user-select>{{item.openid}}</text>
+            <text class="admin-code" wx:if="{{item.inviteCode}}" bindtap="copyInvite" data-code="{{item.inviteCode}}">邀请码 {{item.inviteCode}}</text>
+          </view>
+          <text class="admin-owner" wx:if="{{item.isOwner}}">总管理员</text>
+          <text class="admin-tag" wx:elif="{{item.openid === openid}}">我</text>
+          <text class="admin-del" wx:if="{{isOwner && !item.isOwner}}" bindtap="removeAdmin" data-id="{{item.openid}}">移除</text>
+        </view>
+      </view>
+      <view class="tip">你是总管理员，可添加或移除其他管理员；总管理员本人不可被移除。</view>
+    </view>
+
+    <!-- 数据清理 -->
+    <view class="card danger-card">
+      <view class="sec-title">数据清理</view>
+      <view class="tip danger-tip">{{teamsEnabled ? '清空后不可恢复。普通管理员只清空本团队；总管理员按上方团队筛选清空。' : '清空后不可恢复，请谨慎操作。当前为旧模式，将清空全部上报记录。'}}</view>
+      <button class="btn-danger" bindtap="clearData">{{!teamsEnabled ? '清空全部上报记录' : (isOwner ? (teamFilter === 'all' ? '清空全部上报记录' : '清空当前团队记录') : '清空本团队上报记录')}}</button>
+    </view>
+
+    <!-- 广告位管理（仅总管理员） -->
+    <view class="card" wx:if="{{isOwner}}">
+      <view class="sec-title">首页广告位</view>
+      <view class="tip">图片链接必填；跳转链接可选（小程序页面路径如 /pages/submit/submit，或外部 http 链接会自动复制）。</view>
+      <view class="banner-form">
+        <input class="proj-input" placeholder="图片 URL（必填）" value="{{bannerImage}}" bindinput="onBannerImage" />
+      </view>
+      <view class="banner-form">
+        <input class="proj-input" placeholder="跳转链接（可选）" value="{{bannerLink}}" bindinput="onBannerLink" />
+      </view>
+      <view class="banner-form">
+        <input class="proj-input" placeholder="标题（可选）" value="{{bannerTitle}}" bindinput="onBannerTitle" />
+      </view>
+      <button class="proj-btn banner-add-btn" bindtap="addBanner">添加广告</button>
+
+      <view class="banner-list" wx:if="{{banners.length}}">
+        <view class="banner-item" wx:for="{{banners}}" wx:key="index">
+          <image class="banner-thumb" src="{{item.image}}" mode="aspectFill" />
+          <view class="banner-info">
+            <text class="banner-title">{{item.title || '广告 ' + (index + 1)}}</text>
+            <text class="banner-link" wx:if="{{item.link}}">{{item.link}}</text>
+          </view>
+          <text class="banner-del" bindtap="removeBanner" data-idx="{{index}}">删除</text>
+        </view>
+      </view>
+      <button class="btn-primary banner-save-btn" bindtap="saveBanners" wx:if="{{banners.length}}">保存广告位设置</button>
+    </view>
+
+    <!-- 筛选 + 搜索 -->
+    <view class="card">
+      <view class="filters">
+        <view class="f-tab {{filterStatus === 'all' ? 'on' : ''}}" bindtap="setFilter" data-s="all">全部</view>
+        <view class="f-tab {{filterStatus === 'pending' ? 'on' : ''}}" bindtap="setFilter" data-s="pending">待核对</view>
+        <view class="f-tab {{filterStatus === 'verified' ? 'on' : ''}}" bindtap="setFilter" data-s="verified">已核对</view>
+        <view class="f-tab {{filterStatus === 'settled' ? 'on' : ''}}" bindtap="setFilter" data-s="settled">已结算</view>
+      </view>
+      <view class="proj-filter" wx:if="{{projects.length}}">
+        <view class="pf {{projectFilter === 'all' ? 'on' : ''}}" bindtap="onProjectFilter" data-p="all">全部项目</view>
+        <view class="pf {{projectFilter === item._id ? 'on' : ''}}" wx:for="{{projects}}" wx:key="_id" bindtap="onProjectFilter" data-p="{{item._id}}">{{item.name}}</view>
+      </view>
+      <view class="search-row">
+        <input class="search-input" placeholder="按姓名搜索" value="{{keyword}}" bindinput="onKeyword" confirm-type="search" bindconfirm="search" />
+        <button class="search-btn" bindtap="search">搜索</button>
+      </view>
+    </view>
+
+    <!-- 按项目汇总 -->
+    <view class="card" wx:if="{{projectStats.length}}">
+      <view class="sec-title">按项目汇总（金额降序）</view>
+      <view class="person" wx:for="{{projectStats}}" wx:key="name">
+        <text class="p-name">{{item.name}}</text>
+        <text class="p-count">{{item.count}} 单</text>
+        <text class="p-amount">¥{{item.amount}}</text>
+      </view>
+    </view>
+
+    <!-- 按人汇总 -->
+    <view class="card" wx:if="{{persons.length}}">
+      <view class="sec-title">按人汇总（金额降序）</view>
+      <view class="person" wx:for="{{persons}}" wx:key="name">
+        <text class="p-name">{{item.name}}</text>
+        <text class="p-count">{{item.count}} 单</text>
+        <text class="p-amount">¥{{item.amount}}</text>
+      </view>
+    </view>
+
+    <!-- 记录列表 -->
+    <view wx:if="{{loading}}" class="empty">加载中…</view>
+    <view wx:elif="{{list.length === 0}}" class="empty">暂无符合条件的记录</view>
+
+    <view class="card record" wx:for="{{list}}" wx:key="_id" hover-class="hover-item" hover-stay-time="80">
+      <view class="rec-top">
+        <text class="rec-name">{{item.name}}</text>
+        <text class="tag {{item.statusClass}}">{{item.statusText}}</text>
+      </view>
+      <view class="rec-mid">
+        <text class="rec-plat">{{item.platform}}</text>
+        <text class="rec-proj" wx:if="{{item.projectName}}">{{item.projectName}}</text>
+        <text class="rec-team" wx:if="{{teamsEnabled && isOwner && item.teamName}}">{{item.teamName}}</text>
+        <text class="rec-amt">¥{{item.amountText}}</text>
+      </view>
+      <view class="rec-info muted">
+        {{item.phone}}　{{item.createdAtText}}
+      </view>
+
+      <view class="rec-track" wx:if="{{item.trackingListDisp.length}}">
+        <text class="rec-track-label">快递单号：</text>
+        <text class="rec-track-no" wx:for="{{item.trackingListDisp}}" wx:for-item="t" wx:key="*this" user-select bindtap="copyTrack" data-no="{{t}}">{{t}}</text>
+      </view>
+
+      <view class="rec-imgs" wx:if="{{item.imageUrls.length}}">
+        <image wx:for="{{item.imageUrls}}" wx:for-item="u" wx:key="*this" class="rec-img"
+               src="{{u}}" mode="aspectFill" bindtap="preview" data-id="{{item._id}}" data-url="{{u}}" />
+      </view>
+
+      <view class="rec-actions">
+        <text class="act {{item.status === 'pending' ? 'on' : ''}}" bindtap="markStatus" data-id="{{item._id}}" data-s="pending">待核对</text>
+        <text class="act {{item.status === 'verified' ? 'on' : ''}}" bindtap="markStatus" data-id="{{item._id}}" data-s="verified">已核对</text>
+        <text class="act {{item.status === 'settled' ? 'on' : ''}}" bindtap="markStatus" data-id="{{item._id}}" data-s="settled">已结算</text>
+        <text class="act act-del" catchtap="delReport" data-id="{{item._id}}">删除</text>
+      </view>
+    </view>
+  </block>
+
+</view>

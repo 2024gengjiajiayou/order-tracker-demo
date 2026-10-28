@@ -1,0 +1,9 @@
+{
+  "name": "updateStatus",
+  "version": "1.0.0",
+  "description": "管理员修改上报记录状态",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

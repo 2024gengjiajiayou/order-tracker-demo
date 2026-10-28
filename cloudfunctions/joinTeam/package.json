@@ -1,0 +1,9 @@
+{
+  "name": "joinTeam",
+  "version": "1.0.0",
+  "description": "通过邀请码加入团队",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

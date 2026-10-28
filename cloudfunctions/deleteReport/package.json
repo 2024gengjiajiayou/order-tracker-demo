@@ -1,0 +1,9 @@
+{
+  "name": "deleteReport",
+  "version": "1.0.0",
+  "description": "删除单条上报记录（本团队管理员或总管理员）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

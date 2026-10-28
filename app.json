@@ -1,0 +1,33 @@
+{
+  "__usePrivacyCheck__": true,
+  "pages": [
+    "pages/index/index",
+    "pages/submit/submit",
+    "pages/myList/myList",
+    "pages/admin/admin",
+    "pages/detail/detail",
+    "pages/edit/edit"
+  ],
+  "window": {
+    "backgroundColor": "#f5f6fa",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2b6cb0",
+    "navigationBarTitleText": "下单统筹助手",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#2b6cb0",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/submit/submit", "text": "上报" },
+      { "pagePath": "pages/myList/myList", "text": "我的记录" },
+      { "pagePath": "pages/admin/admin", "text": "管理后台" }
+    ]
+  },
+  "cloud": true,
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

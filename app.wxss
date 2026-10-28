@@ -1,0 +1,124 @@
+page {
+  background: #f5f7fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  font-size: 28rpx;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+/* ---------------- 卡片 ---------------- */
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(17, 24, 39, 0.05);
+}
+
+/* 区块标题：统一带主色竖线 */
+.sec-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+.sec-title::before {
+  content: '';
+  width: 8rpx;
+  height: 28rpx;
+  border-radius: 4rpx;
+  background: #2b6cb0;
+  margin-right: 14rpx;
+}
+
+.muted {
+  color: #a0aec0;
+  font-size: 24rpx;
+}
+
+/* ---------------- 按钮 ----------------
+   小程序 button 默认有灰描边且靠 line-height 居中，容易偏移。
+   这里统一用 flex 垂直居中，并去掉默认描边。 */
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button::after {
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(49, 130, 206, 0.28);
+}
+.btn-primary[disabled] {
+  background: #b6c7da;
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ---------------- 状态标签 ---------------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  line-height: 1;
+}
+.tag-pending { background: #fff4e5; color: #d97706; }
+.tag-verified { background: #e6f0fb; color: #1d6fd0; }
+.tag-settled { background: #e7f6ec; color: #2f855a; }
+
+/* ---------------- 空状态 ---------------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 140rpx 0;
+  color: #a0aec0;
+  font-size: 28rpx;
+}
+.empty::before {
+  content: '';
+  display: block;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  background: #eef2f7;
+  margin-bottom: 28rpx;
+}
+
+/* 输入框兜底：保证录入文字始终深色白底，避免“打字看不见” */
+input, textarea, picker {
+  color: #1a202c !important;
+  background-color: #ffffff;
+}
+.placeholder {
+  color: #b0b8c4;
+}
+
+/* 可点击卡片的按压反馈 */
+.hover-item {
+  background: #f7f9fc;
+}

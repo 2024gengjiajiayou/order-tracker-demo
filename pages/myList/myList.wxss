@@ -1,0 +1,54 @@
+.item {
+  padding: 28rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14rpx;
+}
+.plat {
+  font-size: 26rpx;
+  color: #718096;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+.proj {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  padding: 5rpx 14rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+  line-height: 1;
+}
+.amount {
+  font-size: 34rpx;
+  color: #e53e3e;
+  font-weight: 700;
+  margin-left: 16rpx;
+  flex: none;
+}
+
+.row3 {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+}

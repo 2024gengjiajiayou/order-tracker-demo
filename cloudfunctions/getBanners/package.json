@@ -1,0 +1,9 @@
+{
+  "name": "getBanners",
+  "version": "1.0.0",
+  "description": "获取首页广告位配置",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

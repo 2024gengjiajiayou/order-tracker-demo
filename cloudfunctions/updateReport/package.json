@@ -1,0 +1,9 @@
+{
+  "name": "updateReport",
+  "version": "1.0.0",
+  "description": "修改一条上报记录（本人或管理员）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

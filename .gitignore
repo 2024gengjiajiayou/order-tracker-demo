@@ -1,0 +1,11 @@
+# 依赖
+node_modules/
+miniprogram_npm/
+
+# 微信开发者工具本地设置（每人一份，不入库）
+project.private.config.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini

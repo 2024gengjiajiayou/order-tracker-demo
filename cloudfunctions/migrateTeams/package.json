@@ -1,0 +1,9 @@
+{
+  "name": "migrateTeams",
+  "version": "1.0.0",
+  "description": "一次性迁移：为历史项目/记录补齐团队字段",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

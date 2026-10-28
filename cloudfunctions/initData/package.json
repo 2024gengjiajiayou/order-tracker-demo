@@ -1,0 +1,9 @@
+{
+  "name": "initData",
+  "version": "1.0.0",
+  "description": "一键运营初始化：建集合、设管理员、建默认项目",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

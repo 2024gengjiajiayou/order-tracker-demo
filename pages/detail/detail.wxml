@@ -1,0 +1,30 @@
+<view class="container" wx:if="{{item}}">
+  <view class="card">
+    <view class="kv"><text class="k">姓名</text><text class="v">{{item.name}}</text></view>
+    <view class="kv"><text class="k">联系方式</text><text class="v">{{item.phone}}</text></view>
+    <view class="kv"><text class="k">平台</text><text class="v">{{item.platform}}</text></view>
+    <view class="kv" wx:if="{{item.projectName}}"><text class="k">所属项目</text><text class="v proj">{{item.projectName}}</text></view>
+    <view class="kv" wx:if="{{item.teamName}}"><text class="k">所属团队</text><text class="v">{{item.teamName}}</text></view>
+    <view class="kv"><text class="k">订单号</text><text class="v">{{item.orderNo || '—'}}</text></view>
+    <view class="kv" wx:if="{{item.trackingListDisp.length}}">
+      <text class="k">快递单号</text>
+      <view class="v col">
+        <text class="track-no" wx:for="{{item.trackingListDisp}}" wx:for-item="t" wx:key="*this" user-select bindtap="copyTrack" data-no="{{t}}">{{t}}</text>
+      </view>
+    </view>
+    <view class="kv"><text class="k">金额</text><text class="v amount">¥{{item.amountText}}</text></view>
+    <view class="kv"><text class="k">状态</text><text class="v"><text class="tag {{item.statusClass}}">{{item.statusText}}</text></text></view>
+    <view class="kv"><text class="k">上报时间</text><text class="v">{{item.createdAtText}}</text></view>
+    <view class="kv" wx:if="{{item.remark}}"><text class="k">备注</text><text class="v">{{item.remark}}</text></view>
+  </view>
+
+  <view class="card" wx:if="{{imageUrls.length}}">
+    <view class="sec-title">订单截图</view>
+    <view class="img-grid">
+      <image wx:for="{{imageUrls}}" wx:key="*this" class="img" src="{{item}}" mode="aspectFill"
+             bindtap="preview" data-url="{{item}}" />
+    </view>
+  </view>
+
+  <button class="btn-primary edit-btn" bindtap="goEdit">修改此记录</button>
+</view>

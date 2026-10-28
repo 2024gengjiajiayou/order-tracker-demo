@@ -1,0 +1,9 @@
+{
+  "name": "getReportDetail",
+  "version": "1.0.0",
+  "description": "按 id 读取单条上报记录（带权限校验）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

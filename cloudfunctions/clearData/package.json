@@ -1,0 +1,9 @@
+{
+  "name": "clearData",
+  "version": "1.0.0",
+  "description": "管理员清空上报记录或项目数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,538 @@
+/* ---------------- 顶部汇总 ---------------- */
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 20rpx;
+}
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.stat + .stat::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rpx;
+  height: 56rpx;
+  background: #eef2f7;
+}
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2b6cb0;
+  line-height: 1.2;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #8a94a6;
+  margin-top: 8rpx;
+}
+
+.export-btn {
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 46rpx;
+  font-size: 30rpx;
+  margin-bottom: 24rpx;
+}
+.init-btn {
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 46rpx;
+  margin: 20rpx 0 12rpx;
+  font-size: 30rpx;
+}
+
+/* ---------------- 筛选 ---------------- */
+.filters {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.f-tab {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6rpx;
+  border-radius: 12rpx;
+  background: #f2f4f7;
+  color: #718096;
+  font-size: 26rpx;
+  line-height: 1;
+}
+.f-tab:first-child { margin-left: 0; }
+.f-tab:last-child { margin-right: 0; }
+.f-tab.on {
+  background: #2b6cb0;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 项目筛选 */
+.proj-filter {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20rpx;
+}
+.pf {
+  display: flex;
+  align-items: center;
+  height: 60rpx;
+  padding: 0 24rpx;
+  margin: 0 12rpx 12rpx 0;
+  border-radius: 30rpx;
+  background: #f2f4f7;
+  color: #718096;
+  font-size: 24rpx;
+  line-height: 1;
+}
+.pf.on {
+  background: #eef4fb;
+  color: #2b6cb0;
+  font-weight: 600;
+}
+
+/* ---------------- 输入 + 按钮组合 ---------------- */
+.search-row,
+.proj-add {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.search-input,
+.proj-input {
+  flex: 1;
+  height: 80rpx;
+  background: #f7f9fc;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+.search-btn,
+.proj-btn {
+  flex: none;
+  margin-left: 16rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 32rpx;
+  border-radius: 12rpx;
+  background: #2b6cb0;
+  color: #fff;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* 项目管理 */
+.proj-list { margin-top: 8rpx; }
+.proj-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f2f4f7;
+  font-size: 28rpx;
+}
+.proj-item:last-child { border-bottom: none; }
+.proj-name {
+  flex: 1;
+  color: #1f2937;
+  min-width: 0;
+  word-break: break-all;
+}
+.proj-ops {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.proj-toggle {
+  display: flex;
+  align-items: center;
+  height: 52rpx;
+  padding: 0 18rpx;
+  margin-right: 16rpx;
+  border-radius: 8rpx;
+  background: #f2f4f7;
+  color: #8a94a6;
+  font-size: 24rpx;
+  line-height: 1;
+}
+.proj-toggle.on {
+  color: #2b6cb0;
+  background: #eef4fb;
+  font-weight: 600;
+}
+.proj-del {
+  display: flex;
+  align-items: center;
+  height: 52rpx;
+  padding: 0 12rpx;
+  color: #e53e3e;
+  font-size: 24rpx;
+  line-height: 1;
+}
+
+/* 管理员列表 */
+.admin-list { margin-top: 8rpx; }
+.admin-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f4f7;
+  font-size: 24rpx;
+}
+.admin-item:last-child { border-bottom: none; }
+.admin-id {
+  flex: 1;
+  word-break: break-all;
+  color: #4a5568;
+}
+.admin-owner {
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin-left: 16rpx;
+  color: #b7791f;
+  background: #fffaf0;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  line-height: 1;
+  font-weight: 600;
+}
+.admin-tag {
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin-left: 16rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  line-height: 1;
+}
+.admin-del {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 52rpx;
+  margin-left: 16rpx;
+  padding: 0 8rpx;
+  color: #e53e3e;
+  font-size: 24rpx;
+  line-height: 1;
+}
+
+/* ---------------- 数据清理 ---------------- */
+.danger-card { border: 1rpx solid #fde8e8; }
+.danger-tip { color: #c05621; }
+.btn-danger {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #fff;
+  color: #e53e3e;
+  border: 1rpx solid #e53e3e;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ---------------- 广告位管理 ---------------- */
+.banner-form { margin-bottom: 16rpx; }
+.banner-add-btn {
+  margin: 4rpx 0 16rpx;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 12rpx;
+}
+.banner-list { margin-top: 8rpx; }
+.banner-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f4f7;
+}
+.banner-item:last-child { border-bottom: none; }
+.banner-thumb {
+  width: 120rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
+  flex: none;
+  background: #f2f4f7;
+  display: block;
+}
+.banner-info {
+  flex: 1;
+  margin: 0 16rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.banner-title { font-size: 27rpx; color: #1f2937; word-break: break-all; }
+.banner-link { font-size: 22rpx; color: #a0aec0; margin-top: 6rpx; word-break: break-all; }
+.banner-del {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 52rpx;
+  padding: 0 12rpx;
+  color: #e53e3e;
+  font-size: 24rpx;
+  line-height: 1;
+}
+.banner-save-btn {
+  margin-top: 20rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+}
+
+/* ---------------- 汇总列表 ---------------- */
+.person {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f4f7;
+  font-size: 27rpx;
+}
+.person:last-child { border-bottom: none; }
+.p-name { flex: 1; color: #1f2937; min-width: 0; }
+.p-count { color: #8a94a6; margin: 0 24rpx; flex: none; }
+.p-amount { color: #e53e3e; font-weight: 600; flex: none; }
+
+/* ---------------- 记录卡片 ---------------- */
+.record { padding: 28rpx; }
+.rec-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rec-name { font-size: 30rpx; font-weight: 600; color: #1a202c; }
+.rec-mid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14rpx;
+}
+.rec-plat { font-size: 26rpx; color: #718096; }
+.rec-proj {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  padding: 5rpx 14rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+  line-height: 1;
+}
+.rec-amt { font-size: 32rpx; color: #e53e3e; font-weight: 700; flex: none; }
+.rec-info {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+/* 多个快递单号 */
+.rec-track {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.8;
+}
+.rec-track-label { color: #8a94a6; }
+.rec-track-no {
+  display: inline-block;
+  color: #2b6cb0;
+  background: #f3f6fb;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  margin: 0 12rpx 8rpx 0;
+}
+
+.rec-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 14rpx;
+}
+.rec-img {
+  width: 140rpx;
+  height: 140rpx;
+  margin: 0 12rpx 12rpx 0;
+  border-radius: 12rpx;
+  display: block;
+}
+.rec-actions {
+  display: flex;
+  margin-top: 20rpx;
+  border-top: 1rpx solid #f2f4f7;
+  padding-top: 16rpx;
+}
+.act {
+  flex: 1;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #8a94a6;
+  border-radius: 10rpx;
+  line-height: 1;
+}
+.act.on {
+  color: #2b6cb0;
+  font-weight: 700;
+  background: #eef4fb;
+}
+.act-del {
+  color: #e53e3e;
+}
+
+/* ---------------- 通用文字 ---------------- */
+.tip {
+  font-size: 25rpx;
+  color: #8a94a6;
+  line-height: 1.7;
+  margin-bottom: 16rpx;
+}
+.openid {
+  display: block;
+  word-break: break-all;
+  background: #f3f6fb;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  color: #4a5568;
+  margin-bottom: 12rpx;
+  line-height: 1.6;
+}
+.link-btn {
+  margin-top: 16rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-size: 27rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------- 团队 ---------------- */
+.team-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16rpx;
+}
+.team-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a202c;
+  margin-right: 20rpx;
+}
+.team-code {
+  display: inline-flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  padding: 10rpx 20rpx;
+  border-radius: 999rpx;
+  line-height: 1;
+}
+.rec-team {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22rpx;
+  color: #718096;
+  background: #f2f4f7;
+  padding: 5rpx 14rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+  line-height: 1;
+}
+
+/* 管理员列表：名称 + openid + 邀请码 */
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.admin-name {
+  font-size: 27rpx;
+  color: #1a202c;
+  font-weight: 600;
+  word-break: break-all;
+}
+.admin-item .admin-id {
+  flex: none;
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  color: #a0aec0;
+}
+.admin-code {
+  align-self: flex-start;
+  margin-top: 8rpx;
+  font-size: 21rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  padding: 6rpx 14rpx;
+  border-radius: 8rpx;
+  line-height: 1;
+}
+
+/* ---------------- 团队名称编辑 ---------------- */
+.team-edit {
+  font-size: 23rpx;
+  color: #2b6cb0;
+  border: 1rpx solid #bcd4ee;
+  border-radius: 8rpx;
+  padding: 7rpx 16rpx;
+  line-height: 1;
+  margin-right: 20rpx;
+}
+.admin-name-row {
+  display: flex;
+  align-items: center;
+}
+.admin-edit {
+  margin-left: 14rpx;
+  font-size: 21rpx;
+  color: #2b6cb0;
+  background: #eef4fb;
+  padding: 5rpx 12rpx;
+  border-radius: 6rpx;
+  line-height: 1;
+}
+
+/* ---------------- 加载错误提示 ---------------- */
+.load-error {
+  margin-top: 16rpx;
+  padding: 16rpx 20rpx;
+  font-size: 22rpx;
+  color: #c53030;
+  background: #fff5f5;
+  border-radius: 12rpx;
+  word-break: break-all;
+  line-height: 1.6;
+}

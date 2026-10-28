@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="card hero">
+    <view class="hero-title">下单统筹助手</view>
+    <view class="hero-sub">群主下发任务 · 成员上报订单 · 轻松对账统筹</view>
+  </view>
+
+  <!-- 广告位 -->
+  <view class="card banner-card" wx:if="{{banners.length}}">
+    <swiper class="banner-swiper" autoplay circular indicator-dots interval="4000">
+      <swiper-item wx:for="{{banners}}" wx:key="index">
+        <image class="banner-img" src="{{item.image}}" mode="aspectFill" bindtap="onBannerTap" data-item="{{item}}" />
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="card">
+    <view class="sec-title">怎么用</view>
+    <view class="step"><text class="num">1</text> 群主在微信群发布下单指令</view>
+    <view class="step"><text class="num">2</text> 成员在各平台下单后，点底部「上报」填写订单信息并上传截图</view>
+    <view class="step"><text class="num">3</text> 群主点底部「管理后台」查看全部记录、汇总金额、导出 Excel</view>
+  </view>
+
+  <view class="card">
+    <view class="sec-title">我的身份标识</view>
+    <text class="openid" user-select>{{openid || '获取中…'}}</text>
+    <view class="tip">这是你的微信 openid。管理员添加管理员时需要用到它。点下方按钮复制；若复制无反应，请长按上方这串字符手动复制。</view>
+    <button class="link-btn" bindtap="copyOpenid" wx:if="{{openid}}">复制 openid</button>
+  </view>
+</view>
